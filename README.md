@@ -23,3 +23,7 @@ python <name>.py
 ## how to generate plots
 
 in progress...
+
+### Figure 3.10
+
+![fig310](machzehnder/parallel_amin_heatmap.png)
