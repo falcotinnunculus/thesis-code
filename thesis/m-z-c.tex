@@ -1,0 +1,61 @@
+\begin{tikzpicture}[
+    x=1cm,y=1cm,
+    >=Stealth,
+    font=\small,
+    beam/.style={draw=red!70!black,line width=1pt},
+    beamsplitter/.style={draw=black!75,line width=1.3pt},
+    mirror/.style={draw=black!80,line width=2.5pt},
+    detector/.style={fill=blue!12,draw=black!75,line width=0.8pt},
+    phaseshifter/.style={fill=yellow!25,draw=black!65,line width=0.8pt}
+]
+% Optical components.
+\coordinate (BS1) at (0,0);
+\coordinate (M1) at (4,0);
+\coordinate (M2) at (0,3);
+\coordinate (BS2) at (4,3);
+
+% Beam paths; arrows are placed away from the optical components.
+\draw[beam] (-2.6,0) -- (M1) -- (BS2);
+\draw[beam] (BS1) -- (M2) -- (6.2,3);
+\draw[beam] (BS2) -- (4,4.7);
+\draw[beam,->] (-2.3,0) -- (-0.8,0);
+\draw[beam,->] (1.2,0) -- (2,0);
+\draw[beam,->] (4,0.9) -- (4,1.7);
+\draw[beam,->] (0,0.9) -- (0,1.7);
+\draw[beam,->] (2.6,3) -- (3.3,3);
+\draw[beam,->] (4.7,3) -- (5.4,3);
+\draw[beam,->] (4,3.6) -- (4,4.2);
+
+% Beam-splitter cubes with their partially reflecting interfaces.
+\foreach \component in {BS1,BS2}{
+    \draw[draw=black!55,line width=0.7pt]
+        (\component) ++(-0.28,-0.28) rectangle ++(0.56,0.56);
+    \draw[beamsplitter]
+        (\component) ++(-0.28,-0.28) -- ++(0.56,0.56);
+}
+\node[below,inner sep=3pt] at (0,-0.4) {BS1};
+\node[above right,inner sep=5pt] at (4.25,3.25) {BS2};
+
+% Both mirrors are oriented at 45 degrees to the incident beams.
+\foreach \component in {M1,M2}{
+    \draw[mirror] (\component) ++(-0.32,-0.32) -- ++(0.64,0.64);
+}
+\node[below right,inner sep=5pt] at (M1) {M1};
+\node[above left,inner sep=5pt] at (M2) {M2};
+
+% Output detectors.
+\draw[detector] (6.2,2.65) rectangle (6.55,3.35);
+\node[right,inner sep=5pt] at (6.55,3) {D1};
+\draw[detector] (3.65,4.7) rectangle (4.35,5.05);
+\node[above,inner sep=5pt] at (4,5.05) {D2};
+
+% Phase shifter in the upper arm.
+\draw[phaseshifter] (1.65,2.65) rectangle (2.35,3.35);
+\node at (2,3) {$\Delta\phi$};
+\node[above,align=center] at (2,3.45) {Phase shifter};
+
+% Labels are offset from the light paths.
+\node[below,inner sep=5pt] at (-1.7,0) {Input beam};
+\node[below,inner sep=6pt] at (2,0) {Arm 1};
+\node[below,inner sep=6pt] at (2,2.65) {Arm 2};
+\end{tikzpicture}

@@ -1,0 +1,126 @@
+\begin{tikzpicture}[
+  x=1cm,
+  y=1cm,
+  line cap=round,
+  line join=round,
+  label/.style={font=\scriptsize},
+  smalllabel/.style={font=\tiny},
+  beam/.style={draw=black!55,line width=0.55pt},
+  photon/.style={draw=black!65,line width=0.45pt,dashed},
+  dimension/.style={{Latex[length=2mm]}-{Latex[length=2mm]},line width=0.65pt},
+  axis/.style={-{Latex[length=1.8mm]},line width=0.7pt}
+]
+
+  % Positronium source
+  \fill[yellow!65] (-0.82,2.35) -- (-0.45,2.62) -- (-0.45,3.18)
+      -- (-0.82,2.91) -- cycle;
+  \draw[orange!70!black] (-0.82,2.35) -- (-0.45,2.62) -- (-0.45,3.18)
+      -- (-0.82,2.91) -- cycle;
+  \node[label,anchor=east] at (-0.75,3.22) {$2^3S$ source};
+
+  % Three material gratings.  The repeated diagonal bars suggest depth.
+  \foreach \gx/\name in {1.45/{1\textsuperscript{st} grating},
+                          3.35/{2\textsuperscript{nd} grating},
+                          5.25/{3\textsuperscript{rd} grating}} {
+    \foreach \yy in {1.85,2.18,2.51,2.84,3.17,3.50,3.83} {
+      \draw[black!35,line width=3.1pt]
+        (\gx,\yy) -- ++(0.72,0.62);
+    }
+  }
+
+  % Representative trajectories of the metastable positronium beam
+  \draw[beam] (-0.45,2.72) -- (4.50,2.72);
+  \draw[beam] (-0.45,2.80) -- (5.55,2.95);
+  \draw[beam] (-0.45,2.88) -- (6.88,3.24);
+
+  % Grating period d
+  \draw[line width=0.65pt] (1.24,1.50) -- (1.24,2.58);
+  \draw[-{Latex[length=2mm]},line width=0.65pt]
+    (1.24,1.50) -- (1.24,1.88);
+  \draw[-{Latex[length=2mm]},line width=0.65pt]
+    (1.24,2.58) -- (1.24,2.20);
+  \node[label,anchor=east] at (1.18,2.04) {$d$};
+
+  % Equal distances between consecutive gratings
+  \draw[dimension] (-0.45,1.20) -- (1.45,1.20);
+  \node[label,fill=white,inner sep=1pt] at (0.50,1.20) {$L$};
+  \draw[dimension] (1.45,1.55) -- (3.35,1.55);
+  \node[label,fill=white,inner sep=1pt] at (2.40,1.55) {$L$};
+  \draw[dimension] (3.35,1.55) -- (5.25,1.55);
+  \node[label,fill=white,inner sep=1pt] at (4.30,1.55) {$L$};
+  \draw[dimension] (5.25,1.55) -- (6.64,1.55);
+  \node[label,fill=white,inner sep=1pt] at (5.945,1.55) {$L_S$};
+
+  % Annihilation point and reconstructed vertical position
+  % Highest beam at the stopper and middle beam at the third grating.
+  \coordinate (decay) at (6.94,3.24);
+  \coordinate (decaytwo) at (5.55,2.95);
+  \coordinate (decaythree) at (4.50,2.72);
+  \draw[-{Latex[length=2mm]},line width=0.65pt]
+    (6.05,4.02) -- (6.05,3.42);
+  \node[label,anchor=west] at (6.02,3.72) {$y_3$};
+
+  % Stopper blocking the surviving positronium atoms
+  \fill[black!28] (6.64,1.85) -- (7.48,2.41) -- (7.48,4.45)
+      -- (6.64,3.89) -- cycle;
+  \draw[black!55] (6.64,1.85) -- (7.48,2.41) -- (7.48,4.45)
+      -- (6.64,3.89) -- cycle;
+  \node[label,anchor=west] at (7.62,3.38) {Stopper};
+
+  % Gamma rays from the annihilation point to opposite detector modules
+  \draw[photon] (decay) -- (7.50,5.58);
+  \draw[photon] (decay) -- (6.32,0.62);
+
+  % A second reconstructed event, included as in the reference drawing
+  \draw[photon] (decaytwo) -- (5.02,5.58);
+  \draw[photon] (decaytwo) -- (6.02,0.62);
+
+  % Three-photon annihilation from the third point
+  \draw[photon] (decaythree) -- (4.15,5.58);
+  \draw[photon] (decaythree) -- (3.45,0.62);
+  \draw[photon] (decaythree) -- (4.95,0.62);
+
+  % Annihilation points
+  \draw[black!75,fill=white,line width=0.65pt] (decay) circle (0.09);
+  \draw[black!75,fill=white,line width=0.65pt] (decaytwo) circle (0.09);
+  \draw[black!75,fill=white,line width=0.65pt] (decaythree) circle (0.09);
+
+  % Long scintillator modules above and below the apparatus
+  \foreach \i in {0,...,5} {
+    \pgfmathsetmacro{\dx}{0.10*\i}
+    \pgfmathsetmacro{\dy}{0.065*\i}
+    \pgfmathtruncatemacro{\detectorshade}{12+3*\i}
+    \fill[black!\detectorshade]
+      (2.45+\dx,5.62-\dy) -- (9.15+\dx,5.62-\dy)
+      -- (9.30+\dx,5.52-\dy) -- (2.45+\dx,5.52-\dy) -- cycle;
+    \draw[black!55,line width=0.45pt]
+      (2.45+\dx,5.62-\dy) -- (9.15+\dx,5.62-\dy)
+      -- (9.30+\dx,5.52-\dy) -- (2.45+\dx,5.52-\dy) -- cycle;
+    \fill[black!\detectorshade]
+      (1.85+\dx,0.36+\dy) -- (8.55+\dx,0.36+\dy)
+      -- (8.70+\dx,0.26+\dy) -- (1.85+\dx,0.26+\dy) -- cycle;
+    \draw[black!55,line width=0.45pt]
+      (1.85+\dx,0.36+\dy) -- (8.55+\dx,0.36+\dy)
+      -- (8.70+\dx,0.26+\dy) -- (1.85+\dx,0.26+\dy) -- cycle;
+  }
+  \node[label,anchor=west] at (8.82,4.95) {Detector};
+  \node[label,anchor=west] at (8.45,0.90) {Detector};
+
+  % Draw grating labels last so that the detector perspective does not hide them.
+  \node[label,anchor=south,fill=white,inner sep=1pt] at (1.63,4.42)
+    {1\textsuperscript{st} grating};
+  \node[label,anchor=south,fill=white,inner sep=1pt] at (3.53,4.42)
+    {2\textsuperscript{nd} grating};
+  \node[label,anchor=south,fill=white,inner sep=1pt] at (5.43,4.42)
+    {3\textsuperscript{rd} grating};
+
+  % Coordinate system
+  \coordinate (origin) at (-1.40,0.73);
+  \draw[axis] (origin) -- ++(0.62,0);
+  \draw[axis] (origin) -- ++(0,-0.55);
+  \draw[axis] (origin) -- ++(0.40,0.34);
+  \node[smalllabel,anchor=west] at (-0.75,0.73) {$x$};
+  \node[smalllabel,anchor=north] at (-1.40,0.15) {$y$};
+  \node[smalllabel,anchor=south east] at (-0.73,1.05) {$z$};
+
+\end{tikzpicture}

@@ -1,0 +1,212 @@
+\documentclass[10pt,twocolumn]{article}
+
+\usepackage[a4paper,margin=18mm,columnsep=8mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{siunitx}
+\sisetup{per-mode=fraction, inter-unit-product =\ensuremath{{}\cdot{}}}
+\usepackage{balance}
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{arrows.meta}
+\usepackage{hyperref}
+\usepackage[backend=biber,style=numeric,sorting=none,maxnames=6,url=false,doi=true,isbn=false,giveninits=true]{biblatex}
+\addbibresource{lio.bib}
+\AtBeginBibliography{\footnotesize}
+
+\definecolor{Espresso}{HTML}{3B2F2F}
+\definecolor{Cream}{HTML}{FFF7EA}
+\definecolor{Sand}{HTML}{F1D6B8}
+\definecolor{Terracotta}{HTML}{C96F4A}
+\definecolor{Olive}{HTML}{7D8B52}
+\definecolor{Plum}{HTML}{6F4E7C}
+
+\newcommand{\keywords}[1]{\par\medskip\noindent\textbf{Keywords:} #1}
+
+\title{Sensitivity Comparison of Atomic Interferometry and Deflectometry for Gravitational Measurements on Positronium Using Monte Carlo Simulations}
+
+\author{
+Mateusz Winiarski$^{1}$, Sebastiano Mariazzi$^{2,3}$, Roberto S. Brusa$^{2,3}$,\\
+Paweł Moskal$^{1,4}$, and Sushil Sharma$^{1,4}$\\[1ex]
+\small $^{1}$Faculty of Physics, Astronomy and Applied Computer Science, Jagiellonian University, Kraków, Poland\\
+\small $^{2}$Department of Physics, University of Trento, Povo, Trento, Italy\\
+\small $^{3}$TIFPA/INFN Trento, Povo, Trento, Italy\\
+\small $^{4}$Center for Theranostics, Jagiellonian University, Kraków, Poland
+}
+
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Positronium, a bound state of an electron and a positron, provides a clean system for testing fundamental interactions involving antimatter. We investigate the feasibility of measuring gravitational effects on metastable positronium using atom-interferometric methods. Two concepts are compared: a classical moir\'e deflectometer based on physical gratings and a Mach--Zehnder matter-wave interferometer based on standing light waves. Monte Carlo simulations account for the velocity, angular divergence, lifetime, trajectories, and decay positions of individual positronium atoms. The results indicate a minimum detectable acceleration of approximately $347.4\,g_\oplus$ for the moir\'e configuration and $14.3\,g_\oplus$ for the Mach--Zehnder configuration for $8\cdot10^4$ simulated particle shots under the studied assumptions. The greater sensitivity of the Mach-Zehnder interferometer results primarily from the smaller grating period achievable with optical gratings and from the high transparency of the standing light waves, which avoids annihilation losses on the grating material.
+\keywords{positronium, antimatter gravity, atomic interferometry, moir\'e deflectometer, Mach--Zehnder interferometer, Monte Carlo simulation}
+\end{abstract}
+
+\section{Introduction}
+
+Testing the response of antimatter to gravity is an important experimental challenge. Positronium (Ps), an electrically neutral bound state of an electron and a positron (Fig.~\ref{fig:positronium}), offers a particularly clean system for investigating fundamental interactions involving antimatter\cite{Bass_Mariazzi_Moskal_Stepien_2023}. Its neutrality reduces the influence of stray electric fields compared with charged antiparticles, while its simple leptonic structure enables precise theoretical predictions.
+
+The principal difficulty is the short positronium lifetime. The ground-state ortho-positronium lifetime is approximately $142\,\mathrm{ns}$, whereas para-positronium decays after approximately $125\,\mathrm{ps}$. The metastable $2^3S$ state has a substantially longer lifetime of $1.142\,\si{\micro\second}$ and is therefore the most promising candidate for gravity measurements\cite{Mariazzi_Caravita_Doser_Nebbia_Brusa_2020}. A positron-to-positronium converter followed by ultraviolet excitation and Doppler selection may produce approximately $1.3\cdot10^5$ metastable Ps atoms with characteristic velocities near $10^5\,\si{\meter\per\second}$. A collimation slit can then form the beam required for an interferometric measurement.
+
+This work compares two instruments: a classical moir\'e deflectometer and a quantum Mach--Zehnder interferometer. We use Monte Carlo simulations to evaluate their response to a uniform acceleration and to estimate the smallest detectable acceleration for experimentally relevant beam parameters.
+
+\begin{figure}[ht!]
+  \centering
+  \resizebox{0.5\linewidth}{!}{\input{positronium.tex}}
+  \caption{Schematic representation of positronium as an electron--positron bound state. The metastable $2^3S$ state provides a longer observation time than the ground states.}
+  \label{fig:positronium}
+\end{figure}
+
+\section{Interferometer concepts}
+
+\subsection{Moir\'e deflectometer}
+
+A moir\'e deflectometer (Fig.~\ref{fig:moire-principle}) is a classical device consisting of two identical physical gratings with period $d$ in the micrometer range. The gratings transmit particles only within selected spatial intervals. When illuminated by a beam with finite angular divergence, they generate a periodic moir\'e pattern with the same period $d$. An external force changes the particle trajectories and shifts the detected pattern.
+
+For two equal propagation distances $L$, the gravitational deflection increases with the time of flight. The useful signal is the displacement of the periodic transmission pattern relative to the zero-acceleration case. The method does not require coherent matter waves, which simplifies its interpretation and makes it suitable for implementation in particle-transport simulation frameworks such as Geant4.
+
+\begin{figure}[ht!]
+  \centering
+  \resizebox{\linewidth}{!}{\input{moire.tex}}
+  \caption{Operating principle of the moir\'e deflectometer. A force changes the particle trajectories and shifts the fringe pattern generated by two physical gratings. Adapted from Refs.~\cite{Mariazzi_Caravita_Doser_Nebbia_Brusa_2020,Oberthaler_Bernet_Rasel_Schmiedmayer_Zeilinger_1996}.}
+  \label{fig:moire-principle}
+\end{figure}
+
+\subsection{Mach--Zehnder interferometer}
+
+The Mach--Zehnder configuration (Fig.~\ref{fig:mz-principle}) operates in the de Broglie matter-wave regime\cite{Oberthaler_Bernet_Rasel_Schmiedmayer_Zeilinger_1996,Oberthaler_2002}. The first grating acts as a beam splitter and the second as a recombiner. An external force changes both the particle trajectories and their phases, thereby shifting the interference fringes. Standing laser waves can serve as optical gratings, reducing the grating period to the hundred-nanometer range. This substantially increases sensitivity to small phase and pattern shifts. In addition to the smaller period, standing light waves are almost fully transparent to the positronium beam, so atoms are not lost by annihilation on the grating, unlike in the moiré configuration.
+
+The interferometer requires sufficient transverse coherence. A beam with excessive angular divergence averages over different phases and reduces the fringe contrast. Consequently, the beam divergence must be optimized by balancing the transmitted particle number against the visibility of the interference pattern.
+
+\begin{figure}[ht!]
+  \centering
+  \resizebox{\linewidth}{!}{\input{mach-zehnder-tikz.tex}}
+  \caption{Schematic Mach--Zehnder matter-wave interferometer with standing-light-wave gratings and an interference-fringe detector. Adapted from Ref. \cite{Mariazzi_Caravita_Doser_Nebbia_Brusa_2020}.}
+  \label{fig:mz-principle}
+\end{figure}
+
+\section{Pattern detection}
+
+The microscopic fringe patterns cannot be measured directly with positronium decay detectors such as J-PET\cite{Kowalski_Wiślicki_Shopa_Raczyński_Klimaszewski_Curcenau_Czerwiński_Dulski_Gajos_Gorgol_etal._2018,Sharma_Baran_Brusa_Caravita_Chug_Coussat_Curceanu_Czerwiński_Dadgar_Dulski_etal._2023,doi:10.1126/sciadv.abh4394}. Specifically, the J-PET detector has an axial position resolution of approximately 2.5~cm, whereas the spatial shift of the positronium beam induced by Earth's gravitational field during the particle's short lifetime is on the sub-nanometer scale. To overcome this limitation, we consider a scanning detection scheme based on an additional physical grating and a stopper placed a few centimeters downstream\cite{Mariazzi_Caravita_Doser_Nebbia_Brusa_2020} (Fig.~\ref{fig:detection-geometry}). This third grating is essential, as it effectively converts a spatial displacement too small to resolve directly with J-PET into a measurable modulation of the count rate of atoms reaching the stopper.
+
+The third grating is translated step by step over one period. At each relative position $y_3$, a separate Monte Carlo simulation is performed and particles decaying on the third grating, on the stopper, or in the space between them are counted. The resulting count rate is periodic in $y_3$ (Fig.~\ref{fig:detection}). In the present simulations, one period is sampled at 200 positions.
+
+\begin{figure}[ht!]
+  \centering
+  \resizebox{\linewidth}{!}{\input{thirdg}}
+  \caption{Proposed scanning detection geometry. Adapted from Ref. \cite{Mariazzi_Caravita_Doser_Nebbia_Brusa_2020}.}
+  \label{fig:detection-geometry}
+\end{figure}
+
+\begin{figure}[ht!]
+  \centering
+  \begin{minipage}[c]{\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{moire/moirepattern.png}
+    \par\smallskip
+    \footnotesize Simulated moir\'e transmission pattern.
+  \end{minipage}\par\medskip
+  \begin{minipage}[c]{\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{mach/mach_zehnder_pattern.png}
+    \par\smallskip
+    \footnotesize Simulated Mach--Zehnder transmission pattern.
+  \end{minipage}
+  \caption{Representative periodic signals obtained by scanning the third grating. The horizontal scales differ between the two interferometer concepts.}
+  \label{fig:detection}
+\end{figure}
+
+\section{Monte Carlo model}
+
+For both interferometer concepts, each simulated particle is assigned a velocity sampled from a Gaussian distribution, an incidence angle sampled from a uniform distribution, and a lifetime sampled from an exponential distribution.
+
+For the moir\'e deflectometer, the particle trajectory under a uniform acceleration is calculated until it crosses a grating, reaches the stopper, or decays inside the apparatus. The simulated detection category is recorded for each position of the third grating.
+
+For the Mach--Zehnder interferometer, particle survival through the apparatus is checked. The total phase includes the geometric contribution and the acceleration-induced phase shift for the sampled velocity. A quantum output path is then selected randomly according to the corresponding interference probability. The simulation records whether the particle exits through a bright or dark port and whether it crosses or is stopped by the third grating.
+
+The sensitivity is quantified through the minimum detectable acceleration $a_{\min}$. The model incorporates its dependence on the grating period, fringe visibility, time of flight, and number of detected particles. The sensitivity is expected to scale approximately as
+\begin{equation}
+  a_{\min}\propto\frac{d}{C t^2\sqrt{N_{\mathrm{det}}}},
+  \label{eq:acceleration-sensitivity}
+\end{equation}
+where $d$ is the grating period, $C$ is the fringe visibility (contrast), $t$ is the effective time of flight between the gratings (interrogation time), and $N_{\mathrm{det}}$ is the number of detected particles contributing to the pattern. For fixed geometry, contrast, and time of flight, this reduces to the statistical scaling $a_{\min}\propto1/\sqrt{N_{\mathrm{det}}}$.
+
+\section{Results}
+
+\subsection{Moir\'e deflectometer}
+
+The simulated sensitivity depends strongly on the maximum beam-divergence angle $\theta_{\max}$ (Fig.~\ref{fig:moire-results}). Increasing the accepted divergence increases the number of particles in each shot, but a moir\'e deflectometer still requires a sufficiently collimated beam. For $8\cdot10^4$ particle shots, corresponding to approximately 5.3 weeks of continuous measurement under the assumed source conditions ((a bunch of $1.3\cdot10^5$ metastable Ps atoms produced every 40 s)), the studied configuration operating with a beam divergence of $17\,\mathrm{mrad}$ reaches $a_{\min} = (3408 \pm 31)\,\mathrm{m\,s^{-2}}$ (approximately $347.4\,g_\oplus$). Longer acquisition times may be estimated from the approximate $1/\sqrt{N_{\mathrm{det}}}$ scaling.
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=\linewidth]{moire/moire-inset.png}\par\medskip
+  \includegraphics[width=\linewidth]{moire/moire-sens.png}
+  \caption{Representative moir\'e simulation output (top) and minimum detectable acceleration as a function of beam divergence (bottom).}
+  \label{fig:moire-results}
+\end{figure}
+
+\subsection{Mach--Zehnder interferometer}
+
+In the Mach--Zehnder configuration, increasing the angular divergence eventually suppresses the interference contrast. The simulation therefore predicts an optimum divergence near $1.6\,\mathrm{mrad}$. For $8\cdot10^4$ shots, this condition corresponds to a minimum detectable acceleration of $a_{\min} = (140 \pm 1)\,\mathrm{m\,s^{-2}}$ (approximately $14.3\,g_\oplus$). Furthermore, parameter space heatmaps reveal that the optimal region on the velocity-divergence plane is very broad, meaning the setup tolerates deviations of these parameters by tens of percent without significant loss of sensitivity. The simulated phase distributions also show that gravity shifts the interference fringes in the expected direction (Fig.~\ref{fig:mz-results}).
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=\linewidth]{mach/mariazzi_gravity_shift_mp.png}\par\medskip
+  \includegraphics[width=\linewidth]{mach/mz_sensitivity_vs_divergence_dual_axis.png}
+  \caption{Acceleration-induced fringe shift (top) and Mach--Zehnder sensitivity as a function of beam divergence (bottom).}
+  \label{fig:mz-results}
+\end{figure}
+
+\begin{table*}[t]
+    \centering
+    \caption[Sensitivity comparison: simulations and literature]{Comparison of the minimum detectable accelerations \(a_{\min}\) obtained in the simulations and reported in the literature for a mean initial velocity of \(v_0=10^5\)~\si{\metre\per\second}. The simulations use 400 shots per scan point, while the literature estimates correspond to approximately 400 shots (Table 2 in \cite{Mariazzi_Caravita_Doser_Nebbia_Brusa_2020}). The beam divergences used in each case are listed in the table. Here, \(g=9.81\)~\si{\metre\per\second\squared}.}
+    \label{tab:method-comparison}
+    \small
+    \setlength{\tabcolsep}{4pt}
+    \renewcommand{\arraystretch}{1.15}
+    \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lccc@{}}
+        \toprule
+        Source & \(\theta_{\max}\) [mrad] & \(a_{\min}\) [\si{\metre\per\second\squared}] & \(a_{\min}/g\) \\
+        \midrule
+        \multicolumn{4}{@{}l}{\textbf{moir\'e}} \\
+        Simulation & \(17\) & \(3408\pm31\) & \(347.4\pm3.2\) \\
+        Literature & \(17\) & \(\sim 4.25\cdot10^3\) & \(\sim 4.3\cdot10^2\) \\
+        \addlinespace
+        \multicolumn{4}{@{}l}{\textbf{Mach--Zehnder}} \\
+        Simulation & \(1.6\) & \(140\pm1\) & \(14.27\pm0.10\) \\
+        Literature & \(5.5\) & \(\sim 6.9\cdot10^1\) & \(\sim 7.1\) \\
+        \bottomrule
+    \end{tabular*}
+\end{table*}
+
+\section{Discussion}
+
+The calculations and simulations indicate that the Mach--Zehnder interferometer can probe substantially smaller accelerations than the moir\'e deflectometer under comparable assumptions. The main advantage is the much smaller grating period available from standing light waves. The smaller period makes a given acceleration-induced displacement a larger fraction of a fringe, improving the statistical sensitivity for short-lived particles, while the high transparency of the light gratings avoids annihilation losses on grating material.
+
+The moir\'e deflectometer nevertheless remains attractive as a purely classical device. It does not require matter-wave coherence, and its operation can be studied directly using particle-transport simulations. It may therefore provide a useful intermediate step for validating beam formation, grating transmission, decay detection, and systematic effects.
+
+To compare the simulations with the analytical estimates of Mariazzi et al.\ (2020)\cite{Mariazzi_Caravita_Doser_Nebbia_Brusa_2020}, the literature values are rescaled to the same total number of shots as in the simulations, i.e.\ $8\cdot10^4$, corresponding to 400 shots per scan point and 200 scan points. After this rescaling, the present Monte Carlo study demonstrates agreement within $25\%$ for the moir\'e deflectometer configuration. For the Mach--Zehnder interferometer, however, the simulation predicts a sensitivity approximately a factor of two worse than the rescaled analytical estimate. This discrepancy arises from a different modeling of the angular acceptance: replacing the sharp cut-off at the Bragg angle with a Gaussian distribution leads to a lower interference contrast.
+
+These values should be verified with a more complete treatment of detector efficiency, background, alignment errors, velocity-dependent excitation efficiency, grating imperfections, and other experimental systematics. The dominant contributions are expected to come from grating alignment and rotation, the finite grating--stopper distance, and pick-off annihilation on the material elements.
+
+\section{Conclusion}
+
+Monte Carlo simulations were used to compare classical and quantum interferometric concepts for measuring gravitational effects on metastable positronium. Under the investigated assumptions, the Mach--Zehnder interferometer provides the better sensitivity, reaching approximately $14.3\,g_\oplus$ for $8\cdot10^4$ shots, compared with approximately $347.4\,g_\oplus$ for the moir\'e deflectometer. The improvement is driven mainly by the smaller grating period achievable with optical standing waves. The interferometer is therefore about 24 times more sensitive than the deflectometer, which corresponds to a 593-fold shorter measurement time for the same target acceleration. Future work will extend the simulations to include realistic detector response and systematic uncertainties and will optimize the geometry and beam parameters for an experimental implementation.
+
+\section*{Acknowledgements}
+
+We acknowledge support from the National Science Centre (NCN), grant nos. 2021/42/A/ST2/00423, 2021/43/B/ST2/02150, 2022/47/I/NZ7/03112, and 2023/50/E/ST2/00574; the Polish Ministry of Science and Higher Education (MNiSW), grant nos. IAL/SP/596235/2023 and SPUB/SP/627733/2025; the SciMat and qLife Priority Research Areas; and the ERC Advanced Grant POSITRONIUM (no. 101199807).
+
+% \clearpage
+\balance
+\printbibliography
+
+\end{document}

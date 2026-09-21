@@ -1,0 +1,49 @@
+\begin{tikzpicture}[
+    x=1cm,y=1cm,>=Stealth,font=\small,
+    annotation/.style={->,line width=0.8pt},
+    outline/.style={draw=black!75,line width=0.8pt}
+]
+% Converter, seen in perspective.
+\filldraw[outline,fill=gray!20]
+    (2.65,2.65) -- (3.40,2.91) -- (3.40,4.01) -- (2.65,3.75) -- cycle;
+% Sheet of excited positronium, shown in perspective.
+\path[fill=yellow!30,draw=yellow!45!black,line width=0.9pt]
+    (4.05,6.75)
+    .. controls (3.70,5.40) and (3.47,4.08) .. (3.30,3.23)
+    .. controls (3.38,2.10) and (3.72,0.85) .. (3.96,0.35)
+    .. controls (5.28,1.48) and (5.58,2.72) .. (5.42,4.28)
+    .. controls (5.33,5.57) and (4.91,6.37) .. (4.05,6.75) -- cycle;
+\begin{scope}
+    \clip (4.05,6.75)
+        .. controls (3.70,5.40) and (3.47,4.08) .. (3.30,3.23)
+        .. controls (3.38,2.10) and (3.72,0.85) .. (3.96,0.35)
+        .. controls (5.28,1.48) and (5.58,2.72) .. (5.42,4.28)
+        .. controls (5.33,5.57) and (4.91,6.37) .. (4.05,6.75) -- cycle;
+    \pgfmathsetseed{1741}
+    \foreach \i in {1,...,550}{
+        \pgfmathsetmacro{\px}{3.25+2.35*rnd}
+        \pgfmathsetmacro{\py}{0.35+6.4*rnd}
+        \fill[yellow!70!orange,opacity=0.6] (\px,\py) circle[radius=0.012];
+    }
+\end{scope}
+\draw[yellow!40!black,line width=0.7pt]
+    (4.05,6.75) .. controls (5.08,5.15) and (4.91,2.19) .. (3.96,0.35);
+% Incident beams.
+\draw[-{Stealth[length=5mm,width=4mm]},violet!85!black,line width=3pt]
+    (0.95,2.35) -- (3.36,3.22);
+\node[below,align=center] at (1.60,2.22) {UV laser pulse};
+\draw[-{Stealth[length=3.5mm,width=3mm]},black,line width=1.6pt]
+    (7.75,2.55) -- (5.80,2.92);
+\node[below] at (6.85,2.38) {$e^+$ beam};
+% Component labels.
+\node[anchor=east] at (2.95,4.88) {$e^+$/Ps converter};
+\draw[annotation] (1.40,4.55) -- (2.74,3.89);
+\node[anchor=west] at (6.65,0.12) {Excited $2^3S$ Ps};
+\draw[annotation] (6.50,0.28) -- (5.03,1.78);
+% Coordinate triad, matching the reference image.
+\begin{scope}[xshift=-2cm,yshift=-0.5cm]
+\draw[annotation] (2.55,0.40) -- (3.35,0.26) node[right] {$x$};
+\draw[annotation] (2.55,0.40) -- (2.55,-0.55) node[left] {$y$};
+\draw[annotation] (2.55,0.40) -- (3.35,0.72) node[above right] {$z$};
+\end{scope}
+\end{tikzpicture}

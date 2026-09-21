@@ -1,0 +1,45 @@
+\begin{tikzpicture}[
+  level/.style={draw, thick, minimum width=3.5cm, align=center},
+  >={Stealth[scale=1.2]},
+  pump/.style={->, thick, red!70!black},
+  stim/.style={->, thick, blue!70!black, dashed},
+  spon/.style={->, thick, decorate, decoration={snake, amplitude=2pt, segment length=6pt}, blue!50!black}
+]
+
+% --- Położenie poziomów energetycznych (oś Y) ---
+\coordinate (G) at (0,0);   % Stan podstawowy
+\coordinate (M) at (0,3.5); % Stan metastabilny
+\coordinate (E) at (0,7);   % Stan wzbudzony
+
+% --- Rysowanie poziomów ---
+\draw[level] (-2.2,0) -- (2.2,0) node[right, xshift=0.8cm] {\(1^3S\)};
+\draw[level] (-2.2,3.5) -- (2.2,3.5) node[right, xshift=0.8cm] {\(2^3S\) (metastable) \\ \(\tau = 1142\) ns};
+\draw[level] (-2.2,7) -- (2.2,7) node[right, xshift=0.8cm] {\(3^3P\)};
+
+% --- 1. Wzbudzenie laserowe (główna strzałka pompy) ---
+\draw[pump] (-3,0.2) -- (-3,6.8) 
+    node[midway, left, yshift=-0.6cm, fill=white, inner sep=2pt] {Laser 205 nm};
+
+% --- 2. Rozpad spontaniczny z powrotem do stanu podstawowego (dominujący) ---
+\draw[spon] (-0.8,7) -- (-0.8,0) 
+    node[midway, left, yshift=0.6cm, fill=white, inner sep=2pt] {Spontaneous (90.3\%)};
+
+% --- 3. Rozpad spontaniczny do stanu 2^3S (pożądany kanał) ---
+\draw[spon] (0.8,7) -- (0.8,3.5) 
+    node[midway, right, yshift=-0.6cm, fill=white, inner sep=2pt] {Spontaneous (12\%)};
+
+% --- 4. Rozpad wymuszony (stymulowany) do 2^3S - metoda zwiększająca wydajność ---
+\draw[stim] (2.6,7) -- (2.6,3.5) 
+    node[midway, right, yshift=0.6cm, fill=white, inner sep=2pt] {Stimulated (\(\pi\)-impuls)};
+
+% --- Opis procesu pod schematem ---
+% \node at (0, -1.8) { \textbf{Schemat kaskady:} \(1^3S \xrightarrow{205\text{ nm}} 3^3P \xrightarrow{12\%} 2^3S\) };
+
+% --- Dodatknotka o wydajności ---
+% \node at (0, -2.8) [text width=10cm, align=center, font=\small] {
+    % Uwaga: Stosując technikę STIRAP lub szybkie wygaszanie pola laserowego, 
+    % można zwiększyć populację stanu \(2^3S\) kosztem rozpadu do \(1^3S\).
+% };
+
+\end{tikzpicture}
+% \end{document}
